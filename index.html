@@ -1,67 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Batch Screenshot Cropper</title>
+<title>CropStack — Batch Screenshot Cropper</title>
 
-<meta name="description" content="Crop hundreds of screenshots instantly. Free browser-based batch image cropper with pixel precision. No uploads required.">
+<meta name="description" content="Crop hundreds of screenshots instantly with pixel precision. CropStack is a free browser-based batch image cropper.">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
 <style>
 
+*{
+box-sizing:border-box;
+}
+
 body{
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
-background:#f5f7fb;
+font-family:'Inter',sans-serif;
 margin:0;
+background:linear-gradient(135deg,#7c3aed,#4f46e5);
+color:#111;
 }
 
 .container{
-max-width:1100px;
+max-width:900px;
 margin:auto;
 padding:40px 20px;
 }
 
-h1{
+.header{
 text-align:center;
-font-size:36px;
-margin-bottom:10px;
+color:white;
+margin-bottom:40px;
+}
+
+.logo{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+font-size:28px;
+font-weight:700;
+}
+
+.logo-icon{
+width:28px;
+height:28px;
+position:relative;
+}
+
+.logo-icon div{
+position:absolute;
+border:2px solid white;
+border-radius:4px;
+}
+
+.logo-icon div:nth-child(1){
+width:20px;
+height:20px;
+top:0;
+left:0;
+opacity:.6;
+}
+
+.logo-icon div:nth-child(2){
+width:20px;
+height:20px;
+top:4px;
+left:4px;
+opacity:.8;
+}
+
+.logo-icon div:nth-child(3){
+width:20px;
+height:20px;
+top:8px;
+left:8px;
 }
 
 .subtitle{
-text-align:center;
-color:#666;
-margin-bottom:10px;
+margin-top:10px;
 font-size:18px;
-}
-
-.trust{
-text-align:center;
-color:#888;
-font-size:14px;
-margin-bottom:30px;
+opacity:.9;
 }
 
 .card{
 background:white;
 border-radius:12px;
 padding:25px;
-box-shadow:0 10px 25px rgba(0,0,0,0.05);
 margin-bottom:25px;
+box-shadow:0 15px 40px rgba(0,0,0,0.1);
 }
 
 .upload{
-border:2px dashed #d6d9e0;
+border:2px dashed #ccc;
 padding:40px;
 text-align:center;
-cursor:pointer;
 border-radius:10px;
+cursor:pointer;
+transition:.2s;
 }
 
 .upload:hover{
-background:#f9fafc;
+background:#f7f7ff;
 }
 
 .counter{
@@ -72,80 +117,97 @@ color:#666;
 
 .controls{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:20px;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:15px;
 margin-top:20px;
 }
 
 label{
-font-size:14px;
-color:#444;
+font-size:13px;
+color:#555;
 }
 
 input,select{
 width:100%;
 padding:10px;
-font-size:16px;
 margin-top:5px;
-border:1px solid #ccc;
 border-radius:6px;
+border:1px solid #ccc;
+font-size:14px;
 }
 
 button{
-background:#4f6df5;
+background:#4f46e5;
 color:white;
 border:none;
-padding:14px 20px;
-font-size:16px;
+padding:14px;
 border-radius:6px;
+font-size:15px;
 cursor:pointer;
-margin-top:20px;
+margin-top:15px;
+width:100%;
 }
 
-button:disabled{
-opacity:0.5;
-cursor:not-allowed;
+button:hover{
+background:#4338ca;
 }
 
-.preview-grid{
+.preview{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:20px;
 margin-top:20px;
 }
 
-.preview-box{
-text-align:center;
-}
-
-.preview-box img{
+.preview img{
 max-width:100%;
 border-radius:6px;
-box-shadow:0 6px 15px rgba(0,0,0,0.08);
-}
-
-.progress{
-margin-top:20px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
 .progress-bar{
-height:10px;
+height:8px;
 background:#eee;
 border-radius:10px;
 overflow:hidden;
+margin-top:15px;
 }
 
 .progress-fill{
 height:100%;
-background:#4f6df5;
+background:#4f46e5;
 width:0%;
 }
 
-footer{
-margin-top:40px;
-text-align:center;
-color:#666;
+.section-title{
+font-size:20px;
+font-weight:600;
+margin-bottom:10px;
+}
+
+.faq{
 font-size:14px;
+line-height:1.6;
+}
+
+.suggest{
+text-align:center;
+}
+
+.suggest a{
+text-decoration:none;
+}
+
+.suggest button{
+max-width:300px;
+}
+
+.footer{
+text-align:center;
+color:white;
+margin-top:30px;
+font-size:13px;
+opacity:.9;
 }
 
 </style>
@@ -155,22 +217,38 @@ font-size:14px;
 
 <div class="container">
 
-<h1>Batch Screenshot Cropper</h1>
+<div class="header">
 
-<div class="subtitle">
-Crop hundreds of screenshots instantly using pixel values
+<div class="logo">
+
+<div class="logo-icon">
+<div></div>
+<div></div>
+<div></div>
 </div>
 
-<div class="trust">
-Your images stay on your device. Nothing is uploaded.
+CropStack
+
+</div>
+
+<div class="subtitle">
+Crop hundreds of screenshots instantly with pixel precision
+</div>
+
 </div>
 
 <div class="card">
 
 <div class="upload" onclick="fileInput.click()">
-Click or drag images here
+
+Upload Images
+
 <input type="file" id="fileInput" multiple accept="image/*" hidden>
-<div class="counter" id="counter">No images uploaded</div>
+
+<div class="counter" id="counter">
+No images uploaded
+</div>
+
 </div>
 
 <div class="controls">
@@ -196,7 +274,7 @@ Click or drag images here
 </div>
 
 <div>
-<label>Output Format</label>
+<label>Format</label>
 <select id="format">
 <option value="png">PNG</option>
 <option value="jpeg">JPEG</option>
@@ -205,30 +283,34 @@ Click or drag images here
 
 </div>
 
-<button id="processBtn" disabled onclick="processImages()">Process Images</button>
-<button id="downloadBtn" onclick="downloadZip()" style="display:none">Download ZIP</button>
+<button id="processBtn" disabled onclick="processImages()">
+Process Images
+</button>
 
-<div class="progress">
+<button id="downloadBtn" style="display:none" onclick="downloadZip()">
+Download ZIP
+</button>
+
 <div class="progress-bar">
 <div class="progress-fill" id="progressFill"></div>
 </div>
+
 <div id="progressText"></div>
-</div>
 
 </div>
 
 <div class="card">
 
-<h3>Preview</h3>
+<div class="section-title">Preview</div>
 
-<div class="preview-grid">
+<div class="preview">
 
-<div class="preview-box">
+<div>
 <p>Original</p>
 <img id="originalPreview">
 </div>
 
-<div class="preview-box">
+<div>
 <p>Cropped</p>
 <img id="croppedPreview">
 </div>
@@ -237,18 +319,51 @@ Click or drag images here
 
 </div>
 
-<footer>
+<div class="card faq">
 
-<h3>How to use</h3>
+<div class="section-title">How it works</div>
 
-<p>
-1. Upload screenshots<br>
+1. Upload your screenshots<br>
 2. Enter crop values in pixels<br>
 3. Click "Process Images"<br>
-4. Download the ZIP file
-</p>
+4. Download all cropped images as ZIP
 
-</footer>
+</div>
+
+<div class="card faq">
+
+<div class="section-title">FAQ</div>
+
+<strong>Is CropStack free?</strong><br>
+Yes. You can crop hundreds of images directly in your browser.<br><br>
+
+<strong>Are my images uploaded?</strong><br>
+No. All images are processed locally in your browser.<br><br>
+
+<strong>How many images can I crop?</strong><br>
+The tool supports hundreds depending on browser memory.
+
+</div>
+
+<div class="card suggest">
+
+<div class="section-title">Help Improve CropStack</div>
+
+<p>Have an idea for a feature?</p>
+
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSfPsUVSMwgkNR5KU2hG0B0oLD7O3bQYjC3_mMeSjZgnDbCk2w/viewform" target="_blank">
+
+<button>
+Suggest a Feature
+</button>
+
+</a>
+
+</div>
+
+<div class="footer">
+Built with ❤️ for people working with lots of screenshots
+</div>
 
 </div>
 
@@ -256,7 +371,7 @@ Click or drag images here
 
 let files=[]
 let results=[]
-let previewImage
+let previewImg
 
 fileInput.onchange=e=>{
 files=[...e.target.files]
@@ -270,13 +385,15 @@ function loadPreview(file){
 const reader=new FileReader()
 
 reader.onload=e=>{
-previewImage=new Image()
-previewImage.src=e.target.result
 
-previewImage.onload=()=>{
-originalPreview.src=previewImage.src
+previewImg=new Image()
+previewImg.src=e.target.result
+
+previewImg.onload=()=>{
+originalPreview.src=previewImg.src
 updatePreview()
 }
+
 }
 
 reader.readAsDataURL(file)
@@ -285,7 +402,7 @@ reader.readAsDataURL(file)
 
 function updatePreview(){
 
-if(!previewImage)return
+if(!previewImg)return
 
 const top=parseInt(document.getElementById("top").value)||0
 const bottom=parseInt(document.getElementById("bottom").value)||0
@@ -294,8 +411,8 @@ const right=parseInt(document.getElementById("right").value)||0
 
 const canvas=document.createElement("canvas")
 
-const w=previewImage.width-left-right
-const h=previewImage.height-top-bottom
+const w=previewImg.width-left-right
+const h=previewImg.height-top-bottom
 
 if(w<=0||h<=0)return
 
@@ -304,7 +421,7 @@ canvas.height=h
 
 const ctx=canvas.getContext("2d")
 
-ctx.drawImage(previewImage,left,top,w,h,0,0,w,h)
+ctx.drawImage(previewImg,left,top,w,h,0,0,w,h)
 
 croppedPreview.src=canvas.toDataURL()
 
@@ -328,14 +445,14 @@ const processed=await Promise.all(batch.map(f=>cropImage(f)))
 
 results.push(...processed)
 
-const progress=((i+BATCH)/files.length)*100
+const progress=(Math.min(i+BATCH,files.length)/files.length)*100
 
 progressFill.style.width=progress+"%"
 progressText.innerText=`Processed ${Math.min(i+BATCH,files.length)} / ${files.length}`
 
 }
 
-downloadBtn.style.display="inline-block"
+downloadBtn.style.display="block"
 
 }
 
@@ -401,7 +518,7 @@ const url=URL.createObjectURL(content)
 const a=document.createElement("a")
 
 a.href=url
-a.download="cropped_images.zip"
+a.download="cropstack_images.zip"
 
 a.click()
 
